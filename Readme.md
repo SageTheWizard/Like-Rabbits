@@ -25,8 +25,11 @@ It uses rabbits to simulate evolution to best fit their enviorment
 
 ## HOW TO COMPILE
 > g++ ./src/driver.cxx ./src/rabbit.cxx ./src/enviorment.cxx -o rabbits <br/>
+
 run with...  
+
 > ./rabbits </br>
+
 (Assuming GNU/Linux Distrobution)
 
 ## PICTURES!
