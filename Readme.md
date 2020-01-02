@@ -8,7 +8,8 @@ It uses rabbits to simulate evolution to best fit their enviorment
 - Three different special traits that will randomly mutate  
 
 ## What Doesn't Work
-- Loading a previous Evolution  
+- Loading a previous Evolution 
+- Custom Rabbits / Enviorments
 - Clean Output (how it outputs now is useful for debugging)  
 - Generation Logs
 - Cannibalism Trait does not work properly (doesn't crash, but it doesn't work)
@@ -23,18 +24,18 @@ It uses rabbits to simulate evolution to best fit their enviorment
 - Add ability to create custom enviorments / rabbits
 
 ## HOW TO COMPILE
-> g++ ./src/driver.cxx ./src/rabbit.cxx ./src/enviorment.cxx -o rabbits  
-run with...
-> ./rabbits  
+> g++ ./src/driver.cxx ./src/rabbit.cxx ./src/enviorment.cxx -o rabbits <br/>
+run with...  
+> ./rabbits </br>
 (Assuming GNU/Linux Distrobution)
 
 ## PICTURES!
-Main Menu
+Main Menu <br/><br/>
 ![Alt text](./img/main_menu.png)  
 
-Rabbit Selection
+Rabbit Selection <br/><br/>
 ![Alt text](./img/rabbit_select.png)  
 
-DNA Chart
+DNA Chart<br/><br/>
 ![Alt text](./img/chart.png)
 
