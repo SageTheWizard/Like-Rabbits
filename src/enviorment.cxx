@@ -28,11 +28,14 @@ enviorment::enviorment(int env, int rab)
 		case 1:
 			rabbit_out = "Ninja Rabbits, specially created to be nocturnal, the color of the night and fast";
 			break;
+		case 2:
+			rabbit_out = "Big Fluff Rabbits, specifically created to surivive cold winters";
+			break;
 	}
 
 	switch (env)
 	{
-		case 0:
+		case 0: // standard
 			predator_types    = 0;
 			land_type         = 0;
 			veg_food_amount   = 20;
@@ -42,6 +45,15 @@ enviorment::enviorment(int env, int rab)
 			enviorment_out = "Green grass land with considerable number of trees home to squirrel-like creatures.\nA few foxes seem to roam about but not many predators roam this area...\nThe temperature is moderate.\n";
 			break;
 
+		case 1: // snow
+			predator_types    = 0;
+			land_type         = 1;
+			veg_food_amount   = 5;
+			meat_food_amount  = 10;
+			temperature       = 1;
+			
+			enviorment_out = "Snow Tundra... Not much greenery, a few conifer trees covered in snow.\nAfew small animals scuttle around.\nA few snow foxes roam about but not many predators are around...\nThe temperature is very cold.\n";
+			break;
 	}
 	
 	srand(time(NULL));
@@ -51,6 +63,7 @@ enviorment::enviorment(int env, int rab)
 			  << "You see ... \n" << enviorment_out << "The rabbits begin their journey.\n\n"
 			  << "RABBIT STARTING STATS AT GENERATION 0: \n";
 	
+	std::cin.get();
 	for (int i = 0; i < 20; i++)
 	{
 		std::cout << "RABBIT ";
@@ -58,6 +71,7 @@ enviorment::enviorment(int env, int rab)
 		std::cout << "\n";
 		rabbits[i] -> show_stats();
 	}
+	std::cin.get();
 }
 
 void enviorment::rabbits_eat() 
@@ -146,6 +160,9 @@ void enviorment::rabbits_eat()
 	int eaten_ndx;
 	int current_pop_size;
 	bool one_eaten = false;
+	
+	std::vector<rabbit*>::iterator iter1;
+	std::vector<rabbit*>::iterator iter2;
 
 	/*
 	 *    cannibal rabbit rolls between 0 -> 257000 on speed and asme on str
@@ -156,52 +173,51 @@ void enviorment::rabbits_eat()
 	 *    These odds may be adjusted if it is too common for the cannibal to eat the others
 	 */
 
-	do
+	for (iter1 = rabbits.begin(); iter1 != rabbits.end(); )
 	{
-		all_full = true;
-		current_pop_size = rabbits.size();
-		for (int i = 0; i < current_pop_size; i++)
+		for (iter2 = rabbits.begin(); iter2 != rabbits.end(); )
 		{
-			if ( (!(*(rabbits[i] -> has_eaten())) ) && *(rabbits[i] -> get_cannibalistic()) )
+			if (std::distance(rabbits.begin(), iter1) != std::distance(rabbits.begin(), iter2))
 			{
-				all_full = false;
-				for (int j = 0; j < current_pop_size; j++)
+				if ( *((*iter1) -> get_cannibalistic()) && !(*((*iter1) -> has_eaten())) )
 				{
-					if (j != i)
-					{
-						victim_speed_chance = 1000 * *(rabbits[j] -> get_dec_speed());
-						victim_str_chance   = 1000 * *(rabbits[j] -> get_dec_strength());
-						cannib_speed_roll   = (rand() % 100) + (1000 * *(rabbits[i] -> get_dec_speed()));
-						cannib_str_roll     = (rand() % 100) + (1000 * *(rabbits[i] -> get_dec_strength()));
+					victim_speed_chance = *((*iter2) -> get_dec_speed()) * 1000;
+					victim_str_chance = *((*iter2) -> get_dec_strength()) * 1000;
+					
+					cannib_speed_roll = *((*iter1) -> get_dec_speed()) * 1000;
+					cannib_str_roll = *((*iter1) -> get_dec_strength()) * 1000;
 						
-						if ( (cannib_str_roll > victim_str_chance) && (cannib_speed_roll > victim_speed_chance) && !(one_eaten) )
-						{
-							all_full = true;
-							*(rabbits[i] -> has_eaten()) = true;
-							one_eaten = true;
-							eaten_ndx = j;
-							current_pop_size--;
-						}
-					}
-				}
+					cannib_speed_roll += ((rand() % 2000) - 1000);
+					cannib_str_roll += ((rand() % 2000) - 1000);
 
-				if (one_eaten)
-				{
-					std::cout << "OH NO! Rabbit ";
-					rabbits[i] -> print_id();
-					std::cout << " has eaten Rabbit "; 
-					rabbits[eaten_ndx] -> print_id();
-					std::cout << " because of their Cannibalistic Trait!\n";
-					rabbits.erase(rabbits.begin() + eaten_ndx);
-					one_eaten = false;
+					if ( (cannib_speed_roll > victim_speed_chance) && (cannib_str_roll > victim_str_chance) )
+					{
+						std::cout << "OH NO! Rabbit "; (*iter1) -> print_id(); std::cout << "has eaten Rabbit "; (*iter2) -> print_id(); 
+						std::cout << "\n";
+
+						*((*iter1) -> has_eaten()) = true;
+						iter2 = rabbits.erase(iter2);
+					}
+					else
+					{
+						++iter2;
+					}
+
 				}
 				else
 				{
-					all_full = true;
+					++iter2;
 				}
 			}
+			else
+			{
+				++iter2;
+			}
+
+			victim_speed_chance = victim_str_chance = cannib_speed_roll = cannib_str_roll = 0;
 		}
-	}while(!all_full && rabbits.size() > 1);
+		++iter1;
+	}		
 }
 
 void enviorment::strong_rabbits_take_food() 
@@ -294,6 +310,7 @@ void enviorment::predators_eat()
 			predator_color_odds = 125000;
 			break;
 		case 1: // snow - white best
+			predator_color_odds = 24000;
 			break;
 		case 2: // swamp - dark gray best rabbit swimming matters here
 			break;
@@ -350,6 +367,33 @@ void enviorment::predators_eat()
 				{
 					std::cout << "Rabbit ";
 					(*iter) -> print_id();
+					std::cout << " was eaten by the predator...\n";
+					iter = rabbits.erase(iter);
+				}
+			}
+		}
+		else if (land_type == 1)
+		{
+			if (rabbit_undetected_odds < (temp_pred_color + (rand() % 6000) - 2000))
+			{
+				std::cout << "Predator did not notice Rabbit "; (*iter) -> print_id();
+				std::cout << "...\n";
+				++iter;
+			}
+			else
+			{
+				std::cout << "Predator spotted Rabbit "; (*iter) -> print_id();
+				std::cout << "...\n";
+
+				if (rabbit_escape_odds > predator_speed_odds)
+				{
+					std::cout << "Rabbit "; (*iter) -> print_id();
+					std::cout << " escaped the predator!\n";
+					++iter;
+				}
+				else
+				{
+					std::cout << "Rabbit "; (*iter) -> print_id();
 					std::cout << " was eaten by the predator...\n";
 					iter = rabbits.erase(iter);
 				}

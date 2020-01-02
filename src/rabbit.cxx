@@ -19,8 +19,16 @@ rabbit::rabbit(int choice)
 	int ninja_init_spd_fur[8]   = {1,0,0,1,0,1,1,0}; // 150
 	int ninja_init_col[8]       = {1,1,1,1,1,0,1,0}; // 250
 	
+	int fluff_init_fur[8]       = {1,1,0,0,1,0,0,0}; // 200
+	int fluff_init_spd[8]       = {0,1,0,1,0,0,0,0}; // 80
+	int fluff_init_col[8]       = {0,0,0,1,1,0,0,0}; // 24
+
 	int ninja_init_spd_fur_dec  = 150;
 	int ninja_init_col_dec      = 250;
+	
+	int fluff_init_fur_dec      = 200;
+	int fluff_init_spd_dec      = 80;
+	int fluff_init_col_dec      = 24;
 
 	int default_init_dec        = 102;
 	srand(time(NULL));
@@ -67,6 +75,35 @@ rabbit::rabbit(int choice)
 			id_char = (char) ((rand() % 26) + 65);
 			id_int  = (rand() % 90) + 10;
 			
+			break;
+
+		case 2: // fluff rabbit
+			std::cout << "Generating Fluffy Rabbit...\n";
+			for (int i = 0; i < 8; i++)
+			{
+				fur[i]      = fluff_init_fur[i];
+				speed[i]    = fluff_init_spd[i];
+				color[i]    = fluff_init_col[i];
+				
+				strength[i] = swimming[i] = default_init[i];
+			}
+
+			fur_dec   = fluff_init_fur_dec;
+			color_dec = fluff_init_col_dec;
+			speed_dec = fluff_init_spd_dec;
+
+			swimming_dec = strength_dec = default_init_dec;
+
+			has_food       = false;
+			food_type      = true;
+			nocturnal      = false;
+			carniverous    = false;
+			cannibalistic  = false;
+			// fixrng pls
+			std::this_thread::sleep_for (std::chrono::seconds(1));
+			id_char = (char) ((rand() % 26) + 65);
+			id_int  = (rand() % 90) + 10;
+
 			break;
 	}
 

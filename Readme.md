@@ -3,8 +3,8 @@ At its core, this is a Genetic Algorithm
 It uses rabbits to simulate evolution to best fit their enviorment  
 
 ## Current Features
-- Two premade rabbits (Ninja and Standard)  
-- One premade enviorment (Standard Enviorment)  
+- Three premade rabbits (Fluffy, Ninja and Standard)  
+- Two premade enviorment (Standard and Snowy)  
 - Three different special traits that will randomly mutate  
 
 ## What Doesn't Work
@@ -12,23 +12,24 @@ It uses rabbits to simulate evolution to best fit their enviorment
 - Custom Rabbits / Enviorments
 - Clean Output (how it outputs now is useful for debugging)  
 - Generation Logs
-- Cannibalism Trait does not work properly (doesn't crash, but it doesn't work)
 
 ## TODO
-- Fix Cannibalism
 - Fix the 1 second delay for each rabbit being generated (easy fix)
 - Rework the surival odds .. Specifically on...
 	- Temperature 
-	- Predator Noticing the rabbits
-- Add more enviorments
+	- Predator Noticing the rabbits (Reworked Slightly)
 - Add ability to create custom enviorments / rabbits
 
 ## HOW TO COMPILE
 > g++ ./src/driver.cxx ./src/rabbit.cxx ./src/enviorment.cxx -o rabbits <br/>
 
-run with...  
+OR! Use my "make" file (Not a real make file but it does what it needs to!)  
+run with...
+> chmod +x make  
+> ./make
 
-> ./rabbits </br>
+To Run..
+> ./rabbits
 
 (Assuming GNU/Linux Distrobution)
 

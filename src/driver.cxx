@@ -79,7 +79,7 @@ void start_game()
 	enviorment_choice = pick_env();
 
 	enviorment env = enviorment(enviorment_choice, rabbit_choice);
-
+	clear();
 	for (int i = 0; i < 50; i++) {
 	
 	env.rabbits_eat();
@@ -117,11 +117,16 @@ int pick_rabbit()
 	std::cout << "        ()()   \n";
 	std::cout << "        (o.o)  \n";
 	std::cout << "        (,,,)  \n";
-	std::cout << " - - - - - - - - - - - \n";
+	std::cout << " ----------------------\n";
 	std::cout << " 1 - Ninja Rabbit   \n";
-	std::cout << "       {}{}   \n";
-	std::cout << "      ~{===}  \n";
-	std::cout << "       {;;;}  \n";
+	std::cout << "        {}{}   \n";
+	std::cout << "       ~{===}  \n";
+	std::cout << "        {;;;}  \n";
+	std::cout << "-----------------------\n";
+	std::cout << " 2 - Fluffy Rabbit \n ";
+	std::cout << "        {}{} \n";
+	std::cout << "       {(o.o)} \n";
+	std::cout << "       {(,,,)} \n";
 	std::cout << "=======================\n";
 	std::cout << "\n";
 	
@@ -129,15 +134,47 @@ int pick_rabbit()
     do
     {
         std::cin.clear();
-        std::cout<< "Select an option (0 - 1): ";
+        std::cout<< "Select an option (0 - 2): ";
         std::cin >> input;
         std::cin.get();
-    } while ( (input < 0) || (input > 1) );
+    } while ( (input < 0) || (input > 2) );
     return input;
 }
 int pick_env()
 {
-	return 0;
+	clear();
+	std::cout << "===========================\n";
+	std::cout << " 0 - Standard Enviorment\n";
+	std::cout << "  ___                    \n";
+	std::cout << " |   | __                \n";
+	std::cout << "  --- /  \\/---    nnnnnnn \n";
+	std::cout << "      ------n--   (::::::)\n";
+	std::cout << "                   (::::) \n";
+	std::cout << "                    \\||/\n";
+	std::cout << "                     ||\n";
+	std::cout << " ...#.......@..#.....||......\n";
+	std::cout << " :::|:::::::|::|:::::||::::::\n";
+	std::cout << "-----------------------------\n";
+	std::cout << " 1 - Snow Enviorment  \n";
+	std::cout << "  ___                   \n";
+	std::cout << " |   |   *    *   *  *    *  \n";
+	std::cout << "  ---  *  * *   *      *  * *\n";
+	std::cout << " * *    *     *   /\\  *   * \n";
+	std::cout << "      *    *     // \\  *  *\n";
+	std::cout << "  **    *    *  /////\\   * *\n";
+	std::cout << "*     *    *    --||--  *  * \n";
+	std::cout << " *****************||*********\n";
+	std::cout << "=============================\n";
+    
+	int input;
+    do
+    {
+        std::cin.clear();
+        std::cout<< "Select an option (0 - 1): ";
+        std::cin >> input;
+        std::cin.get();
+    } while ( (input < 0) || (input > 1) );
+	return input;
 }
 void rip()
 {
