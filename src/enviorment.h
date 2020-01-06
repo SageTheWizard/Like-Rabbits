@@ -1,6 +1,7 @@
 #ifndef ENV_H
 #define ENV_H
 #include<vector>
+#include<string>
 #include"rabbit.h"
 
 class enviorment
@@ -15,6 +16,10 @@ class enviorment
 		int meat_food_amount; // only for carniverous
 		int temperature;
 		int rabbit_type;
+
+		int longest_alive_rabbit;
+
+		std::string planet_id;
 	public:
 		int generation_num = 0;
 
@@ -41,10 +46,13 @@ class enviorment
 		
 		// shuffle the rabbits around in the vector to randomize who mates 
 		void rabbit_shuffle();
+		
+		// increase the number of generations all rabbits have been alive for
+		void increase_alive_time();
 
 		// Reproduce - Handles Mutations too!
 		void rabbits_reproduce();
-
+		
 		//display stat chart for all rabbits
 		void display_stat_chart();
 

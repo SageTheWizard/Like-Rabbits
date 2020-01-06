@@ -15,6 +15,13 @@ enviorment::enviorment(int env, int rab)
 	std::string rabbit_out = "ERROR";
 	std::string enviorment_out = "ERROR";
 	rabbit_type = rab;
+	longest_alive_rabbit = 0;
+
+	planet_id += (char) ( (rand() % 26) + 65 );
+	planet_id.append(std::to_string((rand() % 90) + 10));
+	planet_id += (char) ( (rand() % 26) + 65 );
+	planet_id.append(std::to_string((rand() % 10000) + 1000));
+
 	for (int i = 0; i < 20; i++)
 	{
 		rabbits.push_back(new rabbit(rab));
@@ -59,7 +66,7 @@ enviorment::enviorment(int env, int rab)
 	srand(time(NULL));
 	std::cout << "You and you team launch your team of " << rabbit_out << " into interstellar space...\n" 
 	          << "You hear a signal that the FTL Drive on the ship has kicked in and await anxiously for the notification that the ship has arrived at its destination...\n"
-			  << "Once the ship has arrived at the Planet " << (char) ( (rand() % 26) + 65 ) << (rand() % 90) + 10  << (char) ( (rand() % 26) + 65 ) << (rand() % 10000) + 1000 << " the ships cameras kick on..\n"
+			  << "Once the ship has arrived at the Planet " << planet_id << " the ships cameras kick on..\n"
 			  << "You see ... \n" << enviorment_out << "The rabbits begin their journey.\n\n"
 			  << "RABBIT STARTING STATS AT GENERATION 0: \n";
 	
@@ -809,14 +816,32 @@ void enviorment::rabbits_reproduce()
 
 	}
 }
-void enviorment::display_stat_chart()
+void enviorment::increase_alive_time()
 {
-	int dummy_out = 0;
-	//              10 sp     5 
-	std::cout << "RABBIT ID | FUR | COL | STR | SPD | SWM | NOC | CAR | CAN |\n";
-	std::cout << "-----------------------------------------------------------\n";
+	int dummy = 0;
+
 	for (int i = 0; i < rabbits.size(); i++)
 	{
+		dummy = rabbits[i] -> generations_alive;
+		dummy++;
+		rabbits[i] -> generations_alive = dummy;
+	}
+}
+void enviorment::display_stat_chart()
+{
+	int dummy_out  = 0;
+	int eldest_ndx = 0;
+
+	//              10 sp     5 
+	std::cout << "RABBIT ID | FUR | COL | STR | SPD | SWM | NOC | CAR | CAN | AGE | \n";
+	std::cout << "-----------------------------------------------------------------\n";
+	for (int i = 0; i < rabbits.size(); i++)
+	{
+		if ( (rabbits[eldest_ndx] -> generations_alive) < (rabbits[i] -> generations_alive) )
+		{
+			eldest_ndx = i;
+		}
+		
 		std::cout << " "; (rabbits[i] -> print_id()); std::cout << "      | ";
 		dummy_out = *(rabbits[i] -> get_dec_fur());
 		
@@ -920,8 +945,60 @@ void enviorment::display_stat_chart()
             std::cout << "    | ";
         }
 
+		dummy_out = (rabbits[i] -> generations_alive);
+        
+		if (dummy_out < 10)
+        {
+            std::cout << dummy_out << "   | ";
+        }
+        else if (dummy_out < 100)
+        {
+            std::cout << dummy_out << "  | ";
+        }
+        else
+        {
+            std::cout << dummy_out << " | ";
+        }
+
 		std::cout << "\n";
 
 	}
-	std::cout << "-----------------------------------------------------------\n";
+	std::cout << "-----------------------------------------------------------------\n";
+	std::cout << " Best Rabbit's Stats : \n";
+	std::cout << "     ID:  "; (rabbits[eldest_ndx] -> print_id()); std::cout << "\n";
+	std::cout << "     FUR: " << *(rabbits[eldest_ndx] -> get_dec_fur()) << "\n";
+	std::cout << "     COL: " << *(rabbits[eldest_ndx] -> get_dec_color()) << "\n";
+	std::cout << "     STR: " << *(rabbits[eldest_ndx] -> get_dec_strength()) << "\n";
+	std::cout << "     SPD: " << *(rabbits[eldest_ndx] -> get_dec_speed()) << "\n";
+	std::cout << "     SWM: " << *(rabbits[eldest_ndx] -> get_dec_swimming()) << "\n";
+	std::cout << "     NOC: ";
+	if ( *(rabbits[eldest_ndx] -> get_nocturnal()) )
+	{
+		std::cout << "YES\n";
+	}
+	else
+	{
+		std::cout << "NO\n";
+	}
+    std::cout << "     CAR: ";
+    if ( *(rabbits[eldest_ndx] -> get_carniverous()) )
+    {
+        std::cout << "YES\n";
+    }
+    else
+    {
+        std::cout << "NO\n";
+    }
+    std::cout << "     CAN: ";
+    if ( *(rabbits[eldest_ndx] -> get_cannibalistic()) )
+    {
+        std::cout << "YES\n";
+    }
+    else
+    {
+        std::cout << "NO\n";
+    }
+
+
+
 }

@@ -88,7 +88,8 @@ void start_game()
 	env.predators_eat();
 	env.rabbits_temperature();
 	env.rabbits_drown(); // useless rn
-	
+	env.increase_alive_time();
+
 	if (env.enough_to_reproduce())
 	{
 		env.rabbit_shuffle();
@@ -104,6 +105,7 @@ void start_game()
 	std::cout << "Generation " << env.generation_num << " complete!\n";
 	env.generation_num++;
 	env.display_stat_chart();
+	std::cin.get();
 	}
 	std::cin.get();
 	return;

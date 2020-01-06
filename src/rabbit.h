@@ -39,6 +39,8 @@ class rabbit
 		rabbit();
 		rabbit(int);
 
+		int generations_alive;
+
 		void show_stats();
 		void print_id();
 		

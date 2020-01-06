@@ -31,6 +31,8 @@ rabbit::rabbit(int choice)
 	int fluff_init_col_dec      = 24;
 
 	int default_init_dec        = 102;
+	generations_alive           = 0;
+	
 	srand(time(NULL));
 	
 	switch (choice) // standard Rabbit
