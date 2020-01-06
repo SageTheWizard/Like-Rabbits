@@ -7,6 +7,11 @@ It uses rabbits to simulate evolution to best fit their enviorment
 - Two premade enviorment (Standard and Snowy)  
 - Three different special traits that will randomly mutate  
 
+## Next To Be Added
+- Logging in order to clean up output
+- Multiple Generations without interaction
+- More Enviorments and Rabbits 
+
 ## What Doesn't Work
 - Loading a previous Evolution 
 - Custom Rabbits / Enviorments
