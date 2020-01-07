@@ -1,12 +1,11 @@
 #include<iostream>
 #include<stack>
-//#include<vector>
 #include<math.h>
 #include<string>
 #include<stdlib.h>
 #include<time.h>
 #include"enviorment.h"
-//#include"rabbit.h"
+#include"rabbit_log.h"
 
 enviorment::enviorment() {} // coming later
 
@@ -83,8 +82,6 @@ enviorment::enviorment(int env, int rab)
 
 void enviorment::rabbits_eat() 
 {
-	std::string haves     = "RABBITS WHO HAVE EATEN: ";
-	
 	int fastest_still_hungry;
 	int fastest_still_hungry_speed = -1;
 	int temp_veg = veg_food_amount;
@@ -118,9 +115,6 @@ void enviorment::rabbits_eat()
 			*(rabbits[fastest_still_hungry] -> has_eaten()) = true;
 			*(rabbits[fastest_still_hungry] -> veg_food())  = true;
 			temp_veg--;
-			std::cout << "Rabbit ";
-			rabbits[fastest_still_hungry] -> print_id();
-			std::cout << " has eaten!\n";
 			fastest_still_hungry_speed = -1;
 		}
 
@@ -152,9 +146,6 @@ void enviorment::rabbits_eat()
             *(rabbits[fastest_still_hungry] -> has_eaten()) = true;
 			*(rabbits[fastest_still_hungry] -> veg_food())  = false;
             temp_meat--;
-            std::cout << "Rabbit ";
-			rabbits[fastest_still_hungry] -> print_id();
-			std::cout << " has eaten!\n";
             fastest_still_hungry_speed = -1;
         }
     
@@ -199,9 +190,6 @@ void enviorment::rabbits_eat()
 
 					if ( (cannib_speed_roll > victim_speed_chance) && (cannib_str_roll > victim_str_chance) )
 					{
-						std::cout << "OH NO! Rabbit "; (*iter1) -> print_id(); std::cout << "has eaten Rabbit "; (*iter2) -> print_id(); 
-						std::cout << "\n";
-
 						*((*iter1) -> has_eaten()) = true;
 						iter2 = rabbits.erase(iter2);
 					}
@@ -262,11 +250,6 @@ void enviorment::strong_rabbits_take_food()
 					{
 						*(rabbits[j] -> has_eaten()) = false;
 						*(rabbits[i] -> has_eaten()) = true;
-						std::cout << "Rabbit ";
-						rabbits[i] -> print_id();
-						std::cout << " stole Rabbit "; 
-						rabbits[j] -> print_id(); 
-						std::cout << "'s food!\n";
 					}
 				}
 			}
@@ -282,9 +265,7 @@ void enviorment::rabbits_starve()
 	{
 		if ( !( *((*iter) -> has_eaten()) ) )
 		{
-			std::cout << "Rabbit ";
-			(*iter) -> print_id();
-			std::cout << " could not obtain food... they have died of starvation...\n";
+			logs.add_death((*iter) -> print_id(), 0);
 			iter = rabbits.erase(iter);	
 		}
 		else
@@ -352,29 +333,17 @@ void enviorment::predators_eat()
 		{
 			if ( (rabbit_undetected_odds < (temp_pred_color + (rand() % 5000))) && ((temp_pred_color - (rand() % 5000)) < rabbit_undetected_odds) )
 			{
-				std::cout << "Predators did not notice Rabbit ";
-				(*iter) -> print_id();
-				std::cout << "...\n";
 				++iter;
 			}
 			else
 			{
-				std::cout << "Predators spotted Rabbit ";
-				(*iter) -> print_id();
-				std::cout << "...\n";
-
 				if (rabbit_escape_odds > predator_speed_odds)
 				{
-					std::cout << "Rabbit ";
-					(*iter) -> print_id();
-					std::cout << " escaped the predator!\n";
 					++iter;
 				}
 				else
 				{
-					std::cout << "Rabbit ";
-					(*iter) -> print_id();
-					std::cout << " was eaten by the predator...\n";
+					logs.add_death((*iter) -> print_id(), 1);
 					iter = rabbits.erase(iter);
 				}
 			}
@@ -383,25 +352,17 @@ void enviorment::predators_eat()
 		{
 			if (rabbit_undetected_odds < (temp_pred_color + (rand() % 6000) - 2000))
 			{
-				std::cout << "Predator did not notice Rabbit "; (*iter) -> print_id();
-				std::cout << "...\n";
 				++iter;
 			}
 			else
 			{
-				std::cout << "Predator spotted Rabbit "; (*iter) -> print_id();
-				std::cout << "...\n";
-
 				if (rabbit_escape_odds > predator_speed_odds)
 				{
-					std::cout << "Rabbit "; (*iter) -> print_id();
-					std::cout << " escaped the predator!\n";
 					++iter;
 				}
 				else
 				{
-					std::cout << "Rabbit "; (*iter) -> print_id();
-					std::cout << " was eaten by the predator...\n";
+					logs.add_death((*iter) -> print_id(), 1);
 					iter = rabbits.erase(iter);
 				}
 			}
@@ -431,18 +392,17 @@ void enviorment::rabbits_temperature()
 			
 			if ( (((temp_min * 4) / 3) < rabbit_fur_temp) && (rabbit_fur_temp < ((temp_max * 4) / 3)) )
 			{
-				std::cout << "Rabbit "; (*iter) -> print_id(); std::cout << " was comfortable through the night...\n";
 				++iter;
 			}
 			else
 			{
 				if (rabbit_fur_temp > (temp_max * 4) / 3)
 				{
-					std::cout << "Rabbit "; (*iter) -> print_id(); std::cout << " was too hot during the night and died of heat stroke...\n";
+					logs.add_death((*iter) -> print_id(), 4);
 				}
 				else
 				{
-					std::cout << "Rabbit "; (*iter) -> print_id(); std::cout << " was too cold during the night and died of hypothermia...\n";
+					logs.add_death((*iter) -> print_id(), 3);
 				}
 
 				iter = rabbits.erase(iter);
@@ -457,18 +417,17 @@ void enviorment::rabbits_temperature()
 
 			if ( (temp_min < rabbit_fur_temp) && (rabbit_fur_temp < temp_max) )
 			{
-				std::cout << "Rabbit "; (*iter) -> print_id(); std::cout << " was comfortable through the day...\n";
 				++iter;
 			}
 			else
 			{
 				if (rabbit_fur_temp > temp_max)
 				{
-					std::cout << "Rabbit "; (*iter) -> print_id(); std::cout << " was too hot during the day and died of heat stroke...\n";
+					logs.add_death((*iter) -> print_id(), 4);
 				}
 				else
 				{
-					std::cout << "Rabbit "; (*iter) -> print_id(); std::cout << " was too cold during the day and died of hypothermia...\n";
+					logs.add_death((*iter) -> print_id(), 3);
 				}
 				
 				iter = rabbits.erase(iter);
@@ -502,8 +461,6 @@ void enviorment::rabbit_shuffle()
 	int ndx1 = 0;
 	int ndx2 = 0;
 	
-	std::cout << "Shuffling Rabbits.\n";
-
 	do
 	{
 		do // ensure not swapping same rabbit
@@ -511,7 +468,6 @@ void enviorment::rabbit_shuffle()
 			ndx1 = rand() % rabbits.size();
 			ndx2 = rand() % rabbits.size();
 		}while (ndx1 == ndx2);
-		std::cout << "Swapping Rabbit at index " << ndx1 << " with Rabbit at index " << ndx2 << std::endl;
 
 		std::swap(rabbits[ndx1], rabbits[ndx2]);
 		swap_count++;
@@ -525,7 +481,7 @@ void enviorment::rabbits_reproduce()
 	int mut_val;
 	int mut_ndx;
 	
-	int dec;
+	int dec = 0;
 	std::stack<int> dec_calc;
 	
 	
@@ -774,9 +730,9 @@ void enviorment::rabbits_reproduce()
 		 *           Carnivour -> 1% Chance
 		 *           Cannibal -> 1% Chance if Carnivour trait is present in both parents (no roll otherwise)
 		 */
+		
+		logs.add_birth(rabbits[baby_start_ndx + i] -> print_id(), rabbits[i] -> print_id(), rabbits[i+1] -> print_id());
 
-		std::cout << "Rabbit "; (rabbits[i] -> print_id()); std::cout << " and Rabbit "; (rabbits[i+1] -> print_id()); 
-		std::cout << "\n------> Rabbit "; (rabbits[baby_start_ndx + i] -> print_id()); std::cout << "\n";
 		
 		if ( *(rabbits[i] -> get_nocturnal()) && *(rabbits[i+1] -> get_nocturnal()) )
 		{
@@ -786,7 +742,6 @@ void enviorment::rabbits_reproduce()
 		{
 			if (rand() % 100 <= 1)
 			{
-				std::cout << "Baby Rabbit "; (rabbits[baby_start_ndx + i] -> print_id()); std::cout << " is Nocturnal!\n";
 				*(rabbits[baby_start_ndx + i] -> get_nocturnal()) = true;
 			}
 		}
@@ -796,7 +751,6 @@ void enviorment::rabbits_reproduce()
 			*(rabbits[baby_start_ndx + i] -> get_carniverous()) = true;
 			if (rand() % 100 == 0)
 			{
-				std::cout << "Oh Dear! Baby Rabbit "; (rabbits[baby_start_ndx + i] -> print_id()); std::cout << " is a Cannibal!\n";
 				*(rabbits[baby_start_ndx + i] -> get_cannibalistic()) = true;
 			}
 		}
@@ -804,7 +758,6 @@ void enviorment::rabbits_reproduce()
 		{
 			if (rand() % 100 == 0)
 			{
-				std::cout << "Baby Rabbit "; (rabbits[baby_start_ndx + i] -> print_id()); std::cout << " is Carniverous!\n";
 				*(rabbits[baby_start_ndx + i] -> get_carniverous()) = true;
 			}
 		}
@@ -842,7 +795,7 @@ void enviorment::display_stat_chart()
 			eldest_ndx = i;
 		}
 		
-		std::cout << " "; (rabbits[i] -> print_id()); std::cout << "      | ";
+		std::cout << " " << (rabbits[i] -> print_id()) << "      | ";
 		dummy_out = *(rabbits[i] -> get_dec_fur());
 		
 		if (dummy_out < 10)
@@ -965,7 +918,7 @@ void enviorment::display_stat_chart()
 	}
 	std::cout << "-----------------------------------------------------------------\n";
 	std::cout << " Best Rabbit's Stats : \n";
-	std::cout << "     ID:  "; (rabbits[eldest_ndx] -> print_id()); std::cout << "\n";
+	std::cout << "     ID:  " << (rabbits[eldest_ndx] -> print_id()) << "\n";
 	std::cout << "     FUR: " << *(rabbits[eldest_ndx] -> get_dec_fur()) << "\n";
 	std::cout << "     COL: " << *(rabbits[eldest_ndx] -> get_dec_color()) << "\n";
 	std::cout << "     STR: " << *(rabbits[eldest_ndx] -> get_dec_strength()) << "\n";
@@ -998,7 +951,21 @@ void enviorment::display_stat_chart()
     {
         std::cout << "NO\n";
     }
+}
 
-
-
+void enviorment::print_logs(int log_type)
+{
+	switch (log_type)
+	{
+		case 0:
+			logs.print_death_log();
+			break;
+		case 1:
+			logs.print_birth_log();
+			break;
+	}
+}
+void enviorment::clear_logs()
+{
+	logs.clear_logs();
 }

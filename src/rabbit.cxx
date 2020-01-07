@@ -233,9 +233,13 @@ void rabbit::show_stats()
 	return;
 }
 
-void rabbit::print_id()
+std::string rabbit::print_id()
 {
-	std::cout << id_char << id_int;
+	std::string ret;
+	ret += id_char;
+	ret.append(std::to_string(id_int));
+
+	return ret;
 }
 
 int* rabbit::get_fur()

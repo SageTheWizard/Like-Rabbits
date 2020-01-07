@@ -6,17 +6,14 @@ It uses rabbits to simulate evolution to best fit their enviorment
 - Three premade rabbits (Fluffy, Ninja and Standard)  
 - Two premade enviorment (Standard and Snowy)  
 - Three different special traits that will randomly mutate  
+- Generation Logs (See what happened each generation cleanly)
 
 ## Next To Be Added
-- Logging in order to clean up output
-- Multiple Generations without interaction
 - More Enviorments and Rabbits 
 
 ## What Doesn't Work
 - Loading a previous Evolution 
 - Custom Rabbits / Enviorments
-- Clean Output (how it outputs now is useful for debugging)  
-- Generation Logs
 
 ## TODO
 - Fix the 1 second delay for each rabbit being generated (easy fix)
@@ -26,7 +23,7 @@ It uses rabbits to simulate evolution to best fit their enviorment
 - Add ability to create custom enviorments / rabbits
 
 ## HOW TO COMPILE
-> g++ ./src/driver.cxx ./src/rabbit.cxx ./src/enviorment.cxx -o rabbits <br/>
+> g++ ./src/driver.cxx ./src/rabbit.cxx ./src/enviorment.cxx ../src/rabbit\_log.cxx -o rabbits <br/>
 
 OR! Use my "make" file (Not a real make file but it does what it needs to!)  
 run with...
@@ -44,6 +41,9 @@ Main Menu <br/><br/>
 
 Rabbit Selection <br/><br/>
 ![Alt text](./img/rabbit_select.png)  
+
+Enviorment Selectiong <br/><br/>
+![Alt text](./img/env_select.png)
 
 DNA Chart<br/><br/>
 ![Alt text](./img/chart.png)

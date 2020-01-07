@@ -3,12 +3,14 @@
 #include<vector>
 #include<string>
 #include"rabbit.h"
+#include"rabbit_log.h"
 
 class enviorment
 {
 	private:
 		// rabbit colony
 		std::vector<rabbit*> rabbits;
+		rabbit_log logs;
 		// enviorment
 		int predator_types;
 		int land_type;
@@ -55,6 +57,10 @@ class enviorment
 		
 		//display stat chart for all rabbits
 		void display_stat_chart();
+
+		// logging
+		void print_logs(int);
+		void clear_logs();
 
 };
 #endif

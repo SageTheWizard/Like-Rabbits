@@ -42,7 +42,7 @@ class rabbit
 		int generations_alive;
 
 		void show_stats();
-		void print_id();
+		std::string print_id();
 		
 		int* get_fur();
 		int* get_color();
