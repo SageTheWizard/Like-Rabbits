@@ -15,13 +15,6 @@ It uses rabbits to simulate evolution to best fit their enviorment
 - Loading a previous Evolution 
 - Custom Rabbits / Enviorments
 
-## TODO
-- Fix the 1 second delay for each rabbit being generated (easy fix)
-- Rework the surival odds .. Specifically on...
-	- Temperature 
-	- Predator Noticing the rabbits (Reworked Slightly)
-- Add ability to create custom enviorments / rabbits
-
 ## HOW TO COMPILE
 > g++ ./src/driver.cxx ./src/rabbit.cxx ./src/enviorment.cxx ../src/rabbit\_log.cxx -o rabbits <br/>
 
