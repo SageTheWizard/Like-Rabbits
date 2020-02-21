@@ -1,6 +1,8 @@
 # Like Rabbits
 At its core, this is a Genetic Algorithm  
 It uses rabbits to simulate evolution to best fit their enviorment  
+https://github.com/SageTheWizard/Like-Birbs-Classes See here for the progress on the class port to Java for the App!  .
+https://github.com/CTOverton/like-birbs See App progress here! Like Birbs!
 
 ## Current Features
 - Three premade rabbits (Fluffy, Ninja and Standard)  
